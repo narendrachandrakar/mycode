@@ -23,6 +23,15 @@ class Solution(object):
 # https://www.geeksforgeeks.org/find-a-triplet-that-sum-to-a-given-value/
 #https://leetcode.com/problems/3sum/
 
+#  Great explain  https://www.geeksforgeeks.org/find-a-triplet-that-sum-to-a-given-value/
+# 1.Sort the given array.
+# 2.Loop over the array and fix the first element of the possible triplet, arr[i].
+# 3.Then fix two pointers, one at i + 1 and the other at n – 1. And look at the sum,
+# a.If the sum is smaller than the required sum, increment the first pointer.
+# b.Else, If the sum is bigger, Decrease the end pointer to reduce the sum.
+# c. Else, if the sum of elements at two-pointer is equal to given sum then print the triplet and break.
+#
+
 def sum3(arr, sum):
     arrSize = len(arr)
     arr.sort()
@@ -74,12 +83,15 @@ def threeSum(nums):
                     l, r = l + 1, r - 1
     return rst
 
+# https://leetcode.com/problems/3sum/discuss/624953/Python3-Solution
+
 def threeSum11(nums):
         nums.sort()
         arr = []
 
-        for idx in range(len(nums) - 2):
-            if ((idx == 0) or (idx > 0 and nums[idx] != nums[idx - 1])):
+        for idx in range(len(nums) - 2): # beacuse two-pointer:l=i+1 and r=len(nums)-1
+            if ((idx == 0) or\
+                    (idx > 0 and nums[idx] != nums[idx - 1])):
                 l = idx + 1
                 r = len(nums) - 1
 
@@ -87,7 +99,7 @@ def threeSum11(nums):
                     sum_t = nums[idx] + nums[l] + nums[r]
                     if sum_t == 0:
                         arr.append([nums[idx], nums[l], nums[r]])
-
+                        # skip duplicate value
                         while l < r and nums[l] == nums[l + 1]:
                             l += 1
                         while l < r and nums[r - 1] == nums[r]:
@@ -100,7 +112,63 @@ def threeSum11(nums):
                     else:
                         r -= 1
         return arr
-print(threeSum11(nums))
+#print(threeSum11(nums))
 
+#+++++++++++++++++++++++++++++++
+#https://leetcode.com/problems/reverse-string/
+# Write a function that reverses a string. The input string is given as an array of characters char[].
+#
+# Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+# Example 1:
+#
+# Input: ["h","e","l","l","o"]
+# Output: ["o","l","l","e","h"]
+
+
+def reverseString(s):
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        left, right = 0, len(s)-1
+        while left < right:
+            s[left], s[right] = s[right], s[left]
+            left, right = left + 1, right - 1
+        print(s)
+
+s=["h","e","l","l","o"]
+#(reverseString(s))
+
+#+++++++++++++++++++++++++++++++++++
+#Maximum Depth of Binary Tree
+
+# https://leetcode.com/problems/maximum-depth-of-binary-tree/
+# Given a binary tree, find its maximum depth.
+#
+# The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+#
+# Note: A leaf is a node with no children.
+#
+# Example:
+#
+# Given binary tree [3,9,20,null,null,15,7],
+#
+#     3
+#    / \
+#   9  20
+#     /  \
+#    15   7
+
+#  1 + max( left + right )
+
+# Video : https://www.youtube.com/watch?v=to2XMEXE1ms
+
+class Solution:
+    def maxDepth(self, root):
+        if root is None:
+            return 0
+        else:
+            return 1  + max(self.maxDepth(root.left), self.maxDepth(root.right))
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
