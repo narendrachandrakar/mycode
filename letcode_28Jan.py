@@ -171,4 +171,86 @@ class Solution:
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+# Single Number
+#
+# Given a non-empty array of integers, every element appears twice except for one. Find that single one.
+#
+# Note:
+#
+# Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+#
+# Example 1:
+#
+# Input: [2,2,1]
+# Output: 1
+# Example 2:
+#
+# Input: [4,1,2,1,2]
+# Output: 4
+
+# Youtube
+#https://www.youtube.com/watch?v=r0CAz6MdgEg
+#watch after 3:40
+
+# 1. Bit Manipulation
+
+# XOR operation
+# 0 ^ 0 = 0
+# 0 ^ 1 = 1
+# 1 ^ 0 = 1
+# 1 ^ 1 = 0
+# 0000
+# 0001
+# 0010
+# 0011
+# 0100
+# 0101
+
+# Time complexity : O(n). We only iterate through \text{nums}nums,
+# so the time complexity is the number of elements in \text{nums}nums.
+#
+# Space complexity : O(1).
+
+def singleNumber(nums):
+    ans = 0
+    for i in nums:
+        ans ^= i
+    return ans
+
+nums = [4,1,2,1,2]
+#print(singleNumber(nums))
+
+# 2 : Hash Table
+
+# Algorithm
+#
+# We use hash table to avoid the O(n) time required for searching the elements.
+#
+# Iterate through all elements in nums and set up key/value pair.
+# Return the element which appeared only once.
+
+def hashSingleNumber(nums):
+    from collections import defaultdict
+
+    hashTable = defaultdict(int)
+
+    for i in nums:
+        hashTable[i] += 1
+
+    for i in hashTable:
+        if hashTable[i] == 1:
+            return i
+#print(hashSingleNumber(nums))
+#
+# Complexity Analysis
+#
+# Time complexity : O(n - 1) = O(n). Time complexity of for loop is O(n).
+# Time complexity of hash table(dictionary in python) operation pop is O(1).
+#
+# Space complexity : O(n). The space required by hash\_table hash_table is equal to the number
+# of elements in \text{nums}nums.
+
+
+# ++=================================================================================
+
 
