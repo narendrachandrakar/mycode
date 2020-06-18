@@ -253,4 +253,135 @@ def hashSingleNumber(nums):
 
 # ++=================================================================================
 
+def fizzBuzz(n):
+    result = []
 
+    for i in range(1, n+1):
+        if i % 15 == 0:
+            result.append("fizzBuzz")
+        elif i % 5 == 0:
+            result.append("Buzz")
+        elif i % 3 == 0:
+            result.append("Fizz")
+        else:
+            result.append(str(i))
+    return result
+
+#print(fizzBuzz(1))
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# https://leetcode.com/problems/reverse-linked-list/
+# Youtube: https://www.youtube.com/watch?v=XDO6I8jxHtA&frags=pl%2Cwn
+
+# Reverse a singly linked list.
+#
+# Example:
+#
+# Input: 1->2->3->4->5->NULL
+# Output: 5->4->3->2->1->NULL
+
+class Solution:
+    def reverseList(self, head):
+        prev = None
+        while head:
+            tmp = head
+            head = head.next
+            tmp.next = prev
+            prev = tmp
+        return prev
+
+# Complexity analysis
+#
+# Time complexity : O(n). Assume that n is the list's length, the time complexity is O(n).
+#
+# Space complexity : O(1)
+#
+
+#+++++++++++++++++++++++++++++++++++=
+#https://leetcode.com/problems/majority-element/
+
+# # Brute Force algorithm
+# Algorithm
+#
+# The brute force algorithm iterates over the array, and then iterates again for each number to count its occurrences.
+# As soon as a number is found to have appeared more than any other can possibly have appeared, return it.
+
+
+# Given an array of size n, find the majority element. The majority element is the element that appears more than ⌊ n/2 ⌋ times.
+#
+# You may assume that the array is non-empty and the majority element always exist in the array.
+#
+# Example 1:
+#
+# Input: [3,2,3]
+# Output: 3
+# Example 2:
+#
+# Input: [2,2,1,1,1,2,2]
+# Output: 2
+
+def majorityElement(nums):
+    majority_count = len(nums) // 2
+    for num in nums:
+        count = sum(1 for elem in nums if elem == num)
+        if count > majority_count:
+            return num
+
+
+# nums=[3,2,3]
+# print(nums)
+# print(majorityElement([1, 2, 3, 4, 5, 5, 5, 5, 5, 5, 6]))
+
+
+def majorityElems(nums):
+
+    myDict = {}
+
+    for num in nums:
+        if num not in myDict:
+            myDict[num] = 1
+        else:
+            myDict[num] = +1
+    #print(myDict)
+    return max(myDict, key=myDict.get)
+#print(majorityElems([2,2,1,1,1,2,2]))
+#++++++++++++++++++++++++++++++++++++=
+
+# https://leetcode.com/problems/move-zeroes/
+
+# Given an array nums, write a function to move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+#
+# Example:
+#
+# Input: [0,1,0,3,12]
+# Output: [1,3,12,0,0]
+
+
+def moveZeroes(nums):
+    pos = 0
+
+    for i in range(len(nums)):
+        if nums[i]:
+            nums[i], nums[pos] = nums[pos], nums[i]
+            pos += 1
+    return nums
+
+nums = [0,1,0,2,0,4,5]
+#print(moveZeroes(nums))
+
+#++++++++++++++++++++++++++++++++++++++++++
+
+# https://leetcode.com/problems/valid-anagram/
+
+# An anagram of a string is another string that contains same characters, only the order of characters can be different
+
+# Given two strings s and t , write a function to determine if t is an anagram of s.
+#
+# Example 1:
+#
+# Input: s = "anagram", t = "nagaram"
+# Output: true
+# Example 2:
+#
+# Input: s = "rat", t = "car"
+# Output: false
