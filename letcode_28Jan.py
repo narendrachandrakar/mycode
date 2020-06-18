@@ -385,3 +385,76 @@ nums = [0,1,0,2,0,4,5]
 #
 # Input: s = "rat", t = "car"
 # Output: false
+
+# Youtube: https://www.youtube.com/watch?v=1ns7UFp1o54
+
+
+def isAnagram(s, t):
+
+    if len(s) != len(t):
+        return False
+
+    count = {}
+
+    for ch in s:
+        if ch not in count:
+            count[ch] = 0
+        count[ch] += 1
+
+    for ch in t:
+        if ch not in count:
+            count[ch] = 0
+        count[ch] -= 1
+
+    for key in count.keys():
+        if count[key] != 0:
+            return False
+    return True
+
+# watch youtube to see time and Space Complexity https://www.youtube.com/watch?v=1ns7UFp1o54
+#Time Complexity: we are using 2 for loop -> Q(n) + Q(n) = Q(n)
+#Speace Complexity:  Q(1)
+
+s = "anagram"
+t = "nagaram"
+#print(isAnagram(s, t))
+
+#+++++++++++++++++++++++++++++++++++++++++++++++
+
+# https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
+
+# firt watch https://www.youtube.com/watch?v=XPCXGT4u6Qc
+# watch from 1:13 https://www.youtube.com/watch?v=vxIMqdR8flY
+
+# Say you have an array prices for which the ith element is the price of a given stock on day i.
+#
+# Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times).
+#
+# Note: You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).
+#
+# Example 1:
+#       -7 -6 4 -2 3 -2 = 4 +3 =7
+# Input: [7,1,5,3,6,4]
+# Output: 7
+# Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.
+#              Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
+# Example 2:
+#          1 1 1 1
+# Input: [1,2,3,4,5]
+# Output: 4
+# Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.
+#              Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are
+#              engaging multiple transactions at the same time. You must sell before buying again.
+#          1  3  1   2 1  = 6
+input = [1, 2, 5, 6, 4, 5]
+output = 6
+
+def maxProfit(prices):
+    profit = 0
+
+    for i in range(1, len(prices)):
+        if prices[i-1] < prices[i]:
+            profit += prices[i] - prices[i-1]
+    return profit
+
+print(maxProfit(input))
