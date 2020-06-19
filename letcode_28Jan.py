@@ -449,12 +449,153 @@ t = "nagaram"
 input = [1, 2, 5, 6, 4, 5]
 output = 6
 
+# Note: watch above youtube
+
 def maxProfit(prices):
     profit = 0
+
+    if prices is None:
+        return profit
 
     for i in range(1, len(prices)):
         if prices[i-1] < prices[i]:
             profit += prices[i] - prices[i-1]
     return profit
 
-print(maxProfit(input))
+# Time complexity : O(n). Single pass.
+#
+# Space complexity: O(1). Constant space needed.
+#print(maxProfit(input))
+
+#+++++++++++++++++++++++++++++
+
+# https://leetcode.com/problems/contains-duplicate/
+
+# Given an array of integers, find if the array contains any duplicates.
+#
+# Your function should return true if any value appears at least twice in the array, and it should return false if every element is distinct.
+#
+# Example 1:
+#
+# Input: [1,2,3,1]
+# Output: true
+# Example 2:
+#
+# Input: [1,2,3,4]
+# Output: false
+
+def containsDuplicate(nums):
+    dDict = {}
+
+    for i in range(len(nums)):
+        if nums[i] in dDict:
+            return True
+        else:
+            dDict[nums[i]]  = 1
+    return False
+    #return len(nums) > len(set(nums))
+
+# Time complexity : O(n)O(n). We do search() and insert() for nn times and each operation takes constant time.
+#
+# Space complexity : O(n)O(n). The space used by a hash table is linear with the number of elements in it.
+
+#print(containsDuplicate([1,2,2,3]))
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Roman to Integer
+
+# Youtube: https://www.youtube.com/watch?v=MUUc4GFvlL0
+
+
+# https://leetcode.com/problems/roman-to-integer/
+# Example 1:
+#
+# Input: "III"
+# Output: 3
+# Example 2:
+#
+# Input: "IV"
+# Output: 4
+# Example 4:
+#
+# Input: "LVIII"
+# Output: 58
+# Explanation: L = 50, V= 5, III = 3.
+# Example 5:
+#
+# Input: "MCMXCIV"
+# Output: 1994
+# Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+
+
+def romanToInt(s):
+    dict = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+
+    prev, curr, total = 0, 0, 0
+
+    for i in range(len(s)):
+        curr = dict[s[i]]
+        if curr > prev:
+            total = total + curr - 2 * prev
+        else:
+            total += curr
+        prev = curr
+    return total
+
+# Watch Youtube
+#print(romanToInt("XLIX"))
+
+# Explanation:
+# X = 10 , L = 50 , I = 1, X=10
+#           prev                curr     total
+#             0                   0         0
+# 1.( X)   0 -> 10               10       0 + 10 -2 = 10
+# 2.(L)     50 ( bcz if cond)    50       10+ 50 -2*10 = 40
+# 3 (I)       1                   1        40 + 1 = 41
+# 4 (X)       10                  10        41+ + 10 - 2 = 49
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+# https://leetcode.com/problems/first-unique-character-in-a-string/
+
+#  First Unique Character in a String
+
+# Given a string, find the first non-repeating character in it and return it's index. If it doesn't exist, return -1.
+#
+# Examples:
+#
+# s = "leetcode"
+# return 0.
+#
+# s = "loveleetcode",
+# return 2.
+
+def firstUniqChar(inputs):
+    import  collections
+    count = collections.Counter(inputs)
+
+    for i in range(len(inputs)):
+        if count[inputs[i]] == 1:
+            return i
+    return -1
+
+# Complexity Analysis
+#
+# Time complexity : O(N) since we go through the string of length N two times.
+# Space complexity : O(1) because English alphabet contains 26 letters.
+
+def firstUniqChar2(inputs):
+    dict = {}
+
+    for i in range(len(inputs)):
+        if inputs[i] not in dict:
+            dict[inputs[i]] = 1
+        else:
+            dict[inputs[i]] += 1
+
+    for i in range(len(inputs)):
+        if dict[inputs[i]] == 1:
+            return i
+    return -1
+
+print(firstUniqChar("loveleetcode"))
+
