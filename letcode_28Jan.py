@@ -634,6 +634,43 @@ def generate(numRows):
     return result
 #print(generate(5))
 
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Missing Number
+# https://leetcode.com/problems/missing-number/
+#
+# Given an array containing n distinct numbers taken from 0, 1, 2, ..., n, find the one that is missing from the array.
+#
+# Example 1:
+#
+# Input: [3,0,1]
+# Output: 2
+# Example 2:
+#
+Input = [9,6,4,2,3,5,7,0,1]
+# Output: 8
+
+def missingNumber(nums):
+    num_set = set(nums)
+    n = len(nums) + 1
+
+    for num in range(n):
+        if num not in num_set:
+            return num
+
+#print(missingNumber(Input))
+
+#Complexity Analysis:
+
+# Time complexity : O(n)
+# Because the set allows for O(1) containment queries, the main loop runs in O(n) time. Creating num_set costs O(n) time
+# , as each set insertion runs in amortized O(1) time , so the overall runtime is O( n + n ) = O(n)
+
+# Space complexity : O(n)
+#
+# nums contains n-1 distinct elements, so it costs O(n) space to store a set containing all of them.
+
+# ++++++++++++++++++++++++++++++++++++++++++
+
 
 #+++++++++++++++++++++  Extra Python code ++++++++++++++++++++++++++
 
