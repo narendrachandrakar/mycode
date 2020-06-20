@@ -555,6 +555,7 @@ def romanToInt(s):
 # 4 (X)       10                  10        41+ + 10 - 2 = 49
 
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+
 # https://leetcode.com/problems/first-unique-character-in-a-string/
 
 #  First Unique Character in a String
@@ -597,5 +598,104 @@ def firstUniqChar2(inputs):
             return i
     return -1
 
-print(firstUniqChar("loveleetcode"))
+#print(firstUniqChar("loveleetcode"))
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Pascal's Triangle
+# https://leetcode.com/problems/pascals-triangle/
+#  https://www.youtube.com/watch?v=xcq9RoBth1o
+
+
+# Logic
+# here i is row & j is coloum
+# 1. if j == 0 ->> 1
+# 2. if i == j ->> 1
+# 3   (i - 1)(j) + ( i - 1)( j - 1)
+
+# i j
+#   1
+#   1 1
+#   1 2 1
+#   1 3 3 1
+#   1 4 6 4 1
+
+
+def generate(numRows):
+    result = []
+    for i in range(numRows):
+        result.append([])
+        for j in range(i + 1):
+            if j in (0, i):   # Logic 1 & 2
+                result[i].append(1)
+            else:
+               # temp1 = result[i - 1][j - 1]
+                #temp2 = result[i - 1][j]
+                result[i].append(result[i - 1][j - 1] + result[i - 1][j]) # Logic 3
+    return result
+#print(generate(5))
+
+
+#+++++++++++++++++++++  Extra Python code ++++++++++++++++++++++++++
+
+# Python Program to Print Pattern – Print Number, Star, Pyramid, Diamond and Letter Pattern
+# https://pynative.com/print-pattern-python-examples/
+
+#Python Pattern Programs - Printing Stars '*' in Right Angle Triangle Shape | Star Pattern
+
+# 1. # Note : Right Angle Triangle Shape
+
+def pypart(n):
+    myList = []
+    for i in range(1, n + 1):
+        myList.append("*" * i)
+    print("\n".join(myList))
+
+
+# Driver Code
+n = 5
+#pypart(n)
+
+# 2 Printing Triangle
+
+# Function to demonstrate printing pattern triangle
+def triangle(n):
+    # number of spaces
+    k = 2 * n - 2
+
+    # outer loop to handle number of rows
+    for i in range(0, n):
+
+        # inner loop to handle number spaces
+        # values changing acc. to requirement
+        for j in range(0, k):
+            print(end=" ")
+
+            # decrementing k after each loop
+        k = k - 1
+
+        # inner loop to handle number of columns
+        # values changing acc. to outer loop
+        for j in range(0, i + 1):
+            # printing stars
+            print("* ", end="")
+
+            # ending line after each row
+        print("\r")
+
+    # Driver Code
+
+
+n = 5
+print(triangle(n))
+
+#  2: Print Number pattern in Python  -> https://pynative.com/print-pattern-python-examples/
+
+def numPattern(nums):
+    myList = []
+    for i in range(1, nums+1):
+        myList.append(i * i)
+    print(myList)
+    #print("\n".join(myList))
+
+#print(numPattern(5))
 
