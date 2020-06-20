@@ -642,22 +642,47 @@ def generate(numRows):
 
 #Python Pattern Programs - Printing Stars '*' in Right Angle Triangle Shape | Star Pattern
 
-# 1. # Note : Right Angle Triangle Shape
+# 1. # Note : Right Angle Triangle Shape or Half pyramid pattern with Star (asterisk)
 
-def pypart(n):
-    myList = []
-    for i in range(1, n + 1):
-        myList.append("*" * i)
-    print("\n".join(myList))
+def pypart(rows):
+    # myList = []
+    # for i in range(1, row + 1):
+    #     myList.append("*" * i)
+    # print("\n".join(myList))
+
+    # for i in range(0, rows):
+    #     for j in range(0, i + 1):
+    #         print("*", end=' ')
+    #
+    #     print("\r")
+
+    for j in range(1, rows + 1):
+        print("* " * j)
 
 
 # Driver Code
 n = 5
 #pypart(n)
 
-# 2 Printing Triangle
+# 3  Left Half-Pyramid Pattern with Star (asterisk)
+
+def leftHalfPyramid(rows):
+    k = 2 * n - 2
+
+    for i in range(0, rows):
+        for j in range(0, k):
+            print(end=" ")
+        k = k - 2
+        for j in range(0, i+1):
+            print("*", end=" ")
+        print("\r")
+#print(leftHalfPyramid(5))
+
+# 3 Printing Triangle Or Equilateral triangle pattern with Star (asterisk)
 
 # Function to demonstrate printing pattern triangle
+#  Watch this one https://www.youtube.com/watch?v=k_B-5Aad7EU&list=PLzgPDYo_3xuliFyI5dZKgYB99SMUscGyp&index=3
+
 def triangle(n):
     # number of spaces
     k = 2 * n - 2
@@ -686,16 +711,36 @@ def triangle(n):
 
 
 n = 5
-print(triangle(n))
+#print(triangle(n))
+
+# 4 Downward Half-Pyramid Pattern with Star (asterisk)
+
+def downwardHalfPyramid(rows):
+
+    for i in range(rows+1, 0 , -1):
+        for j in range(0, i -1):
+            print("*", end=" ")
+        print(" ")
+
+#print(downwardHalfPyramid(5))
+
+# Star Pattern 5: Print Right start Pattern with Star (asterisk)
+
+def rightStarPattern(rows):
+
+    for i in range(0, rows):
+        for j in range(0, i + 1):
+            print("*", end=" ")
+        print("\r")
+    # We are already on 5 th row, so we do not need to increment rows
+    for i in range(rows, 0, -1):
+        for j in range(0, i - 1):
+            print("*", end=" ")
+        print("\r")
+
+#print(rightStarPattern(5))
+
 
 #  2: Print Number pattern in Python  -> https://pynative.com/print-pattern-python-examples/
 
-def numPattern(nums):
-    myList = []
-    for i in range(1, nums+1):
-        myList.append(i * i)
-    print(myList)
-    #print("\n".join(myList))
-
-#print(numPattern(5))
 
