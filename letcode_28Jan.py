@@ -671,6 +671,101 @@ def missingNumber(nums):
 
 # ++++++++++++++++++++++++++++++++++++++++++
 
+# https://leetcode.com/problems/search-a-2d-matrix-ii/
+# Search a 2D Matrix II
+
+# Check youtube to understand the logic https://www.youtube.com/watch?v=Ohke9-qwAKU
+
+# Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
+#
+# Integers in each row are sorted in ascending from left to right.
+# Integers in each column are sorted in ascending from top to bottom.
+
+# Example:
+#
+# Consider the following matrix:
+#
+# [
+#   [1,   4,  7, 11, 15],
+#   [2,   5,  8, 12, 19],
+#   [3,   6,  9, 16, 22],
+#   [10, 13, 14, 17, 24],
+#   [18, 21, 23, 26, 30]
+# ]
+# Given target = 5, return true.
+#
+# Given target = 20, return false.
+
+
+def serachMatrix(matrix, target):
+
+    # Checking if row should not empty len(matrix)
+    # checking if col should mot empty len(matrix[0])
+    if len(matrix) == 0 or len(matrix[0]) == 0:
+        return False
+
+    row = 0
+    col = len(matrix[0]) - 1
+
+    while (row <= len(matrix) - 1) and col >= 0:
+        if matrix[row][col] > target:   # Check youtube to understand the logic https://www.youtube.com/watch?v=Ohke9-qwAKU
+            col -= 1
+        elif matrix[row][col] < target:
+            row += 1
+        else:
+            return True
+    return False
+
+
+# Time complexity : O(n+m)
+# The key to the time complexity analysis is noticing that, on every iteration (during which we do not return true)
+# either row or col is is decremented/incremented exactly once. Because row can only be decremented mm times and col can only be
+# incremented n times before causing the while loop to terminate, the loop cannot run for more than n+m iterations.
+# Because all other work is constant, the overall time complexity is linear in the sum of the dimensions of the matrix.
+
+# Space complexity : O(1)
+#Because this approach only manipulates a few pointers, its memory footprint is constant.
+
+# def searchMatrix(self, matrix, target):
+#         for row in matrix:
+#             if target in row:
+#                 return True
+#
+#         return False
+
+input = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]]
+
+#print(serachMatrix(input, 5))
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Intersection of Two Arrays II
+# https://leetcode.com/problems/intersection-of-two-arrays-ii/
+# Youtube:  https://www.youtube.com/watch?v=XtSUDAtB-rI
+
+
+def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+    nums1.sort()
+    nums2.sort()
+    i, j = 0, 0
+    res = []
+
+    while i < len(nums1) and j < len(nums2):
+        if nums1[i] < nums2[j]:
+            i += 1
+        elif nums1[i] > nums2[j]:
+            j += 1
+        else:
+            res.append(nums1[i])
+            i += 1
+            j += 1
+    return res
+
+
+
+
+
+
+
 
 #+++++++++++++++++++++  Extra Python code ++++++++++++++++++++++++++
 
