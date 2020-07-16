@@ -743,7 +743,7 @@ input = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26
 # Youtube:  https://www.youtube.com/watch?v=XtSUDAtB-rI
 
 
-def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
+def intersect(nums1, nums2):
     nums1.sort()
     nums2.sort()
     i, j = 0, 0
@@ -761,8 +761,219 @@ def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
     return res
 
 
+nums1 = [1,2,2,1]
+nums2 = [2,2]
+#print(intersect(nums1, nums2))
+
+# Time complexity: O(nlogn+mlogm),
+# where n and m are the lengths of the arrays. We sort two arrays independently, and then do a linear scan.
+#
+# Space complexity: O(1). We sort the arrays in-place. We ignore the space to store the output
+# as it is not essential to the algorithm itself.
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++
+
+# Sum of Two Integers
+# https://leetcode.com/problems/sum-of-two-integers/
+
+# https://leetcode.com/problems/sum-of-two-integers/discuss/699379/Python-Simple-bit-operations-solution-with-detailed-explanation
 
 
+def getSum(a: int, b: int) -> int:
+    ## RC ##
+    ## APPROACH : BITWISE OPERATIONS ##
+    ## LOGIC ##
+    #   1. For any two numbers, if their binary representations are completely opposite, then XOR operation will directly produce sum of numbers ( in this case carry is 0 )
+    #   2. what if the numbers binary representation is not completely opposite, XOR will only have part of the sum and remaining will be carry, which can be produced by and operation followed by left shift operation.
+    #   3. For Example 18, 13 => 10010, 01101 => XOR => 11101 => 31 (ans found), and operation => carry => 0
+    #   4. For Example 7, 5
+    #   1 1 1                   1 1 1
+    #   1 0 1                   1 0 1
+    #   -----                   -----
+    #   0 1 0   => XOR => 2     1 0 1  => carry => after left shift => 1 0 1 0
+    #   2                                                              10
+    # now we have to find sum of 2, 10 i.e a is replace with XOR result and b is replaced wth carry result
+    # similarly repeating this process till carry is 0
+    #   steps will be 7|5 => 2|10 => 8|4  => 12|0
+
+    ## TIME COMPLEXITY : O(1) ##
+    ## SPACE COMPLEXITY : O(1) ##
+
+    # 32 bit mask in hexadecimal
+    mask = 0xffffffff  # (python default int size is not 32bit, it is very large number, so to prevent overflow and stop running into infinite loop, we use 32bit mask to limit int size to 32bit )
+    tmp = b & mask
+    while (b & mask > 0):
+        tm = (a & b) << 1
+        carry = (a & b) << 1
+        a = a ^ b
+        b = carry
+    return (a & mask) if b > 0 else a
+
+a = 3
+b = 2
+
+#a, b = 1, 2
+#print(getSum(a, b))
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#  Best Time to Buy and Sell Stock
+# https://leetcode.com/problems/best-time-to-buy-and-sell-stock/
+
+# Youtube https://www.youtube.com/watch?v=FsigpyvLPHA
+
+# Say you have an array for which the ith element is the price of a given stock on day i.
+# If you were only permitted to complete at most one transaction (i.e., buy one and sell one share of the stock), design an algorithm to find the maximum profit.
+# Note that you cannot sell a stock before you buy one.
+
+# Example 1:
+#
+# Input: [7,1,5,3,6,4]
+# Output: 5
+# Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+#              Not 7-1 = 6, as selling price needs to be larger than buying price.
+# Example 2:
+#
+# Input: [7,6,4,3,1]
+# Output: 0
+# Explanation: In this case, no transaction is done, i.e. max profit = 0.
+
+def maxProfit(prices):
+    maxProfit = 0
+
+    if not prices:
+        return maxProfit
+
+    minPrice = prices[0]
+
+    for price in prices:
+        minPrice = min(minPrice, price)
+        maxProfit = max(maxProfit, (price - minPrice))
+
+    return maxProfit
+
+prices = [7,1,5,3,6,4]
+#print(maxProfit(prices))
+
+#Time complexity : O(n). Only a single pass/for loop is needed.
+
+#Space complexity : O(1). Only two variables are used.
+
+# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#  123. Best Time to Buy and Sell Stock III
+# Youtube: https://www.youtube.com/watch?v=gVavspgEHyM
+#
+
+# Algorithm
+#
+# Overall, we run an iteration over the sequence of prices.
+#
+# Over the iteration, we calculate 4 variables which correspond to the costs or the profits of each action respectively, as follows:
+#
+# t1_cost: the minimal cost of buying the stock in transaction #1. The minimal cost to acquire a stock would be the minimal price value that we have seen so far at each step.
+#
+# t1_profit: the maximal profit of selling the stock in transaction #1. Actually, at the end of the iteration, this value would be the answer for the first problem in the series, i.e. Best Time to Buy and Sell Stock.
+#
+# t2_cost: the minimal cost of buying the stock in transaction #2, while taking into account the profit gained from the previous transaction #1. One can consider this as the cost of reinvestment. Similar with t1_cost, we try to find the lowest price so far, which in addition would be partially compensated by the profits gained from the first transaction.
+#
+# t2_profit: the maximal profit of selling the stock in transaction #2. With the help of t2_cost as we prepared so far, we would find out the maximal profits with at most two transactions at each step.
+
+
+def maxProfit33(prices):
+    if not prices:
+        return 0
+    t1_cost, t2_cost = float('inf'), float('inf')
+    t1_profit, t2_profit = 0, 0
+
+    for price in prices:
+        # the maximum profit if only one transaction is allowed
+        t1_cost = min(t1_cost, price)
+        t1_profit = max(t1_profit, price - t1_cost)
+        # reinvest the gained profit in the second transaction
+        t2_cost = min(t2_cost, price - t1_profit)
+        t2_profit = max(t2_profit, price - t2_cost)
+
+    return t2_profit
+
+# Time Complexity: O(N), where NN is the length of the input sequence.
+
+# Space Complexity: O(1), only constant memory is required, which is invariant from the input sequence.
+
+prices = [3,3,5,0,0,3,1,4]
+#print(maxProfit33(prices))
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# 188. Best Time to Buy and Sell Stock IV
+# https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/
+# Youtube: https://www.youtube.com/watch?v=ZRK5t8svQ9o
+
+def maxProfit44(prices, k):
+
+    if k <= 1 or len(prices) <= 1:
+        return 0
+
+    profit = 0
+    if k > len(prices)/2:
+        for i in range(len(prices) - 1):
+            if prices[i] < prices[i+1]:
+                profit += prices[i+1] - prices[i]
+        return profit
+
+    arrBuy = float('int') * k
+    profit = [0] * k
+
+    for price in prices:
+        gainProfit = 0
+        for j in range(len(prices) - 1):
+            arrBuy[j] += min(arrBuy[j], price - gainProfit)
+            profit[j] += max(profit[j], price - arrBuy[j])
+            gainProfit = profit[j]
+        return profit[-1]
+
+input = [2,4,1]
+k = 2
+
+#print(maxProfit44(input, k))
+# https://leetcode.com/problems/subsets/
+
+# Given a set of distinct integers, nums, return all possible subsets (the power set).
+# https://leetcode.com/problems/subsets/solution/
+
+
+#Note: The solution set must not contain duplicate subsets.
+#Example:
+
+# Input: nums = [1,2,3]
+# Output:
+# [
+#   [3],
+#   [1],
+#   [2],
+#   [1,2,3],
+#   [1,3],
+#   [2,3],
+#   [1,2],
+#   []
+# ]
+
+# Approach 1: Cascading
+# Let's start from empty subset in output list. ' \
+# At each step one takes new integer into consideration and generates new subsets from the existing ones.
+
+def subSet(nums):
+
+    output = [[]]
+
+    for num in nums:
+        output += [ curr + [num] for curr in output]
+    return output
+
+nums = [1, 2, 3]
+print(subSet(nums))
+
+
+
+
+# +++++++++++++++++++ subsets ++++++++++++++++++
 
 
 
@@ -874,5 +1085,22 @@ def rightStarPattern(rows):
 
 
 #  2: Print Number pattern in Python  -> https://pynative.com/print-pattern-python-examples/
+
+# ++++++++++++++++++++++++++++++++ how-to-make-a-flat-list-out-of-list-of-lists ++++++++
+
+# https://stackoverflow.com/questions/952914/how-to-make-a-flat-list-out-of-list-of-lists
+# How to make a flat list out of list of lists?
+
+def flatList(items):
+
+    res = []
+    for i in items:
+        if isinstance(i, list):
+            res.extend(flatList(i))
+        else:
+            res.append(i)
+    return res
+items = [1, 2, [3,4]]
+#print(flatList(items))
 
 
