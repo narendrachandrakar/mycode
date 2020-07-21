@@ -249,4 +249,150 @@ class LRUCache(object):
 # https://www.youtube.com/watch?v=su3E22YwLB4&list=PL5s8CPoNdSOuMtUw6iGIL_xfIna_vcPJa&index=39
 
 
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+#Partition Labels
+
+# A string S of lowercase English letters is given. We want to partition this string into as many parts as possible
+# so that each letter appears in at most one part, and return a list of integers representing the size of these parts.
+
+# Example 1:
+#
+# Input: S = "ababcbacadefegdehijhklij"
+# Output: [9,7,8]
+# Explanation:
+# The partition is "ababcbaca", "defegde", "hijhklij".
+# This is a partition so that each letter appears in at most one part.
+# A partition like "ababcbacadefegde", "hijhklij" is incorrect, because it splits S into less parts.
+
+# Youtube: https://www.youtube.com/watch?v=ED4ateJu86I&t=314s
+
+# Complexity Analysis
+#
+# Time Complexity: O(N), where NN is the length of SS.
+#
+# Space Complexity: O(1) to keep data structure last of not more than 26 characters.
+
+def partitionLabels(S):
+    d = {letter:index for index, letter in enumerate(S)}
+    outline = []
+    count = 0
+    pos = 0
+    for index, letter in enumerate(S):
+        count += 1
+        pos = max(pos, d[letter])
+        if index == pos:
+            outline.append(count)
+            count = 0
+    return outline
+
+
+input = "ababcbacadefegdehijhklij"
+#print(partitionLabels(input))
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+# https://leetcode.com/problems/merge-intervals/
+# Merge Intervals
+# Given a collection of intervals, merge all overlapping intervals.
+
+# Youtube; https://www.youtube.com/watch?v=O44oSOfNvLM
+#
+# Example 1:
+#
+# Input: [[1,3],[2,6],[8,10],[15,18]]
+# Output: [[1,6],[8,10],[15,18]]
+# Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
+# Example 2:
+#
+# Input: [[1,4],[4,5]]
+# Output: [[1,5]]
+# Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+
+
+# Complexity Analysis
+#
+# Time complexity : O(nlog n)
+#
+# Other than the sort invocation, we do a simple linear scan of the list, so the runtime is dominated by the O(nlgn)O(nlgn)
+# complexity of sorting.
+#
+# Space complexity : O(1) (or O(n)
+#
+# If we can sort intervals in place, we do not need more than constant additional space.
+# Otherwise, we must allocate linear space to store a copy of intervals and sort that
+
+def merge(intervals):
+    intervals.sort(key=lambda x: x[0])
+    print(intervals[0][1])
+    i = 1
+    while i < len(intervals):
+        if intervals[i][0] <= intervals[i - 1][1]:
+            # intervals[i-1][0] = min(intervals[i-1][0], intervals[i][0])
+            intervals[i - 1][1] = max(intervals[i - 1][1], intervals[i][1])
+
+            intervals.pop(i)
+        else:
+            i += 1
+    return intervals
+
+input=[[1,4],[4,5]]
+#print(merge(input))
+
+#+++++++++++++++++++++++
+# Meeting Rooms II
+# https://leetcode.com/problems/meeting-rooms-ii/
+# Youtube: https://www.youtube.com/watch?v=-WJFVe_1TRw
+
+# Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), find the minimum number of conference rooms required.
+#
+# Example 1:
+#
+# Input: [[0, 30],[5, 10],[15, 20]]
+# Output: 2
+# Example 2:
+#
+# Input: [[7,10],[2,4]]
+# Output: 1
+
+# Algorithm
+#
+# Sort the given meetings by their start time.
+# Initialize a new min-heap and add the first meeting's ending time to the heap. We simply need to keep track of the ending times as that tells us when a meeting room will get free.
+# For every meeting room check if the minimum element of the heap i.e. the room at the top of the heap is free or not.
+# If the room is free, then we extract the topmost element and add it back with the ending time of the current meeting we are processing.
+# If not, then we allocate a new room and add it to the heap.
+# After processing all the meetings, the size of the heap will tell us the number of rooms allocated. This will be the minimum number of rooms needed to accommodate all the meetings
+
+import  heapq
+def meetingrooms(intervals):
+    # If there is no meeting to schedule then no room needs to be allocated.
+    if not intervals:
+        return 0
+
+    # The heap initialization
+    free_rooms = []
+
+    # Sort the meetings in increasing order of their start time.
+    intervals.sort(key=lambda x: x[0])
+    #print(intervals)
+
+    #print(intervals[0][1])
+    # Add the first meeting. We have to give a new room to the first meeting.
+    heapq.heappush(free_rooms, intervals[0][1])
+    #print(free_rooms)
+    # For all the remaining meeting rooms
+    for i in intervals[1:]:
+        # If the room due to free up the earliest is free, assign that room to this meeting.
+        if free_rooms[0] <= i[0]:
+            #print("Pop", i[0])
+            heapq.heappop(free_rooms)
+
+        # If a new room is to be assigned, then also we add to the heap,
+        # If an old room is allocated, then also we have to add to the heap with updated end time.
+        heapq.heappush(free_rooms, i[1])
+
+    # The size of the heap tells us the minimum rooms required for all the meetings.
+    return len(free_rooms)
+
+input = [[0, 30],[5, 10],[15, 20]]
+#print(meetingrooms(input))
 
