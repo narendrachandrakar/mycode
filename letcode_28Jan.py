@@ -1,6 +1,11 @@
 #https://github.com/kamyu104/LeetCode/blob/master/Python/two-sum.py
 #https://leetcode.com/problems/two-sum/description/
 
+# Complexity Analysis:
+#
+# Time complexity : O(n). We traverse the list containing nn elements only once. Each look up in the table costs only O(1)O(1) time.
+#
+# Space complexity : O(n). The extra space required depends on the number of items stored in the hash table, which stores at most nn elements.
 
 class Solution(object):
     def twoSum(self, nums, target):
@@ -31,6 +36,33 @@ class Solution(object):
 # b.Else, If the sum is bigger, Decrease the end pointer to reduce the sum.
 # c. Else, if the sum of elements at two-pointer is equal to given sum then print the triplet and break.
 #
+
+# ++++++++++++++++++++++++++++++++++++++++++++++
+# Two Sum II - Input array is sorted
+# https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/
+# Given an array of integers that is already sorted in ascending order,
+# find two numbers such that they add up to a specific target number.
+#
+# The function twoSum should return indices of the two numbers such that they add up to the target,
+# where index1 must be less than index2.
+
+# Example:
+#
+# Input: numbers = [2,7,11,15], target = 9
+# Output: [1,2]
+# Explanation: The sum of 2 and 7 is 9. Therefore index1 = 1, index2 = 2.
+
+# Approach 1: Two Pointers
+
+# Complexity analysis
+#
+# Time complexity : O(n). Each of the nn elements is visited at most once, thus the time complexity is O(n).
+#
+# Space complexity : O(1). We only use two indexes, the space complexity is O(1).
+
+#  Youtube : https://www.youtube.com/watch?v=1ZuD-3OxXgo
+
+
 
 def sum3(arr, sum):
     arrSize = len(arr)

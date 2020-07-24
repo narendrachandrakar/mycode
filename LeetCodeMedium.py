@@ -396,3 +396,46 @@ def meetingrooms(intervals):
 input = [[0, 30],[5, 10],[15, 20]]
 #print(meetingrooms(input))
 
+
+#++++++++++++++++++++++++++++++++++++++++++=
+# https://leetcode.com/problems/subarray-sum-equals-k/solution/
+
+# Subarray Sum Equals K
+
+# Youtube: https://www.youtube.com/watch?v=bqN9yB0vF08https://www.youtube.com/watch?v=bqN9yB0vF08
+#
+# Given an array of integers and an integer k, you need to find the total number of continuous subarrays whose sum equals to k.
+#
+# Example 1:
+#
+# Input:nums = [1,1,1], k = 2
+# Output: 2
+
+# Approach 2: Using Cumulative Sum
+# Algorithm
+#
+# Instead of determining the sum of elements everytime for every new subarray considered, we can make use of a cumulative sum array , sumsum. Then, in order to calculate the sum of elements lying between two indices, we can subtract the cumulative sum corresponding to the two indices to obtain the sum directly, instead of iterating over the subarray to obtain the sum.
+#
+# In this implementation, we make use of a cumulative sum array, sumsum, such that sum[i]sum[i] is used to store the cumulative sum of numsnums array upto the element corresponding to the (i-1)^{th}(i−1)
+# th
+#   index. Thus, to determine the sum of elements for the subarray nums[i:j]nums[i:j], we can directly use sum[j+1] - sum[i]sum[j+1]−sum[i].
+#
+
+#
+
+
+
+def subarraySum( nums, k ):
+    sumDict = {0: 1} # Watch youtbe
+    count = 0
+    sm = 0
+
+    for num in nums:
+        sm += num
+        if sm - k in sumDict:
+            count += sumDict[sm - k]
+        sumDict[sm] = sumDict.get(sm, 0) + 1
+    return count
+
+nums = [3, 4, 7, 2, -3, 1, 4, 2, 1]
+print(subarraySum(nums, 7))
