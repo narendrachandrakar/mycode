@@ -438,4 +438,72 @@ def subarraySum( nums, k ):
     return count
 
 nums = [3, 4, 7, 2, -3, 1, 4, 2, 1]
-print(subarraySum(nums, 7))
+#print(subarraySum(nums, 7))
+
+
+
+# +++++++++++++++++++++++++++++
+# Best Explaination about Heap , Heapify , Max Heam & Min heap https://www.youtube.com/watch?v=HqPJF2L5h9U
+
+
+# https://leetcode.com/problems/k-closest-points-to-origin/
+
+# We have a list of points on the plane.  Find the K closest points to the origin (0, 0).
+#
+# (Here, the distance between two points on a plane is the Euclidean distance.)
+#
+# You may return the answer in any order.  The answer is guaranteed to be unique (except for the order that it is in.)
+#
+# Input: points = [[1,3],[-2,2]], K = 1
+# Output: [[-2,2]]
+#
+#
+# Explanation:
+# The distance between (1, 3) and the origin is sqrt(10).
+# The distance between (-2, 2) and the origin is sqrt(8).
+# Since sqrt(8) < sqrt(10), (-2, 2) is closer to the origin.
+# We only want the closest K = 1 points from the origin, so the answer is just [[-2,2]].
+
+# pythagoras theorem to get distance
+
+# Solutaion 1 : Sort
+#Time Complexity: O(NlogN), where N is the length of points.
+
+#Space Complexity: O(N).
+
+import math
+def kCloset(points, k):
+    dist = [ (math.sqrt(point[0]**2 + point[1]**2), point) for point in points]
+    return [ point for distance, point in sorted(dist)[:k] ]
+
+points=[[1,3], [-2, 2]]
+k= 1
+#print(kCloset(points, k))
+
+# Note : Time Complex nlong(n)
+# If we use the Min Heap ( watch 9:54 https://www.youtube.com/watch?v=AErPTzg04-Y  n(logn n) + k * log(n)
+# if we use the Max heap ( watch 17:30 -> T .c = K log(K) + ( N- K ) log(k) =  N log(K)
+
+# Soluation 2 : Max heap  ( Best time complexcity)
+
+# https://leetcode.com/problems/k-closest-points-to-origin/discuss/758782/Python-Min-Heap-Max-Heap-Solution
+
+# Max Heap https://www.youtube.com/watch?v=AErPTzg04-Y
+def kClosestMaxHeap(points, K):
+    kClosest = []
+    for point in points:
+        distanceSquare = -1 * (point[0] ** 2 + point[1] ** 2)
+        if K > 0:
+            heapq.heappush(kClosest, (distanceSquare, point))
+            K -= 1
+        else:
+            heapq.heappushpop(kClosest, (distanceSquare, point))
+            return list(map(lambda x: x[1], kClosest))
+
+points=[[1,3], [-2, 2]]
+k= 1
+
+points = [[3,3],[5,-1],[-2,4]]
+k= 2
+
+#print(kClosestMaxHeap(points, k))
