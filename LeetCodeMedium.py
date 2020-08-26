@@ -507,3 +507,99 @@ points = [[3,3],[5,-1],[-2,4]]
 k= 2
 
 #print(kClosestMaxHeap(points, k))
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
+
+
+# https://www.tangjikai.com/algorithms/leetcode-215-kth-largest-element-in-an-array
+
+#===============================================================================
+# Step 1: select nums[0] as pivot
+# Step 2: tail means the end of window that all elements are larger than pivot
+# Step 3: swap pivot with nums[tail]
+# If tail + 1 == k: return pivot. Since (tail) elements larger than pivot, so pivot is (tail + 1)th largest
+# If tail + 1 < k: result is among the window excluding pivot, so cut off nums to nums[:tail](nums[tail] is pivot, kicked out)
+# If tail + 1 > k: result is outside of window, so cut off nums to nums[tail+1:].
+#===============================================================================
+
+# Also if we want https://leetcode.com/problems/kth-largest-element-in-an-array/discuss/60306/Python-different-solutions-with-comments-(bubble-sort-selection-sort-heap-sort-and-quick-sort).
+
+
+# O(n) time, quick selection
+def findKthLargest(nums, k):
+    pivot = nums[0]
+    tail = 0
+
+    for i in range(1, len(nums)):
+        if nums[i] > pivot:
+            tail += 1
+            nums[tail], nums[i] = nums[i], nums[tail]
+
+    nums[tail], nums[0] = nums[0], nums[tail]
+
+    if tail + 1 == k:
+        return pivot
+    elif tail + 1 < k:
+        return findKthLargest(nums[tail + 1:], k - tail - 1)
+    else:
+        return findKthLargest(nums[:tail], k)  # excluding pivot
+
+
+Input=[3,2,1,5,6,4]
+k = 2
+#print(findKthLargest(Input, k))
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++
+# https://leetcode.com/problems/top-k-frequent-elements/
+
+# Let's start from the simple heap approach with  O(Nlogk) time complexity.
+# To ensure that O(Nlogk) is always less thanO(NlogN),' \
+#  the particular case k = N could be considered separately and solved in O(N) time.
+
+import collections
+def topKFrequent_heap(nums, k):
+    result = []
+    max_heap = [(-val, key) for key, val in collections.Counter(nums).items()]
+    print(max_heap)
+    heapq.heapify(max_heap)
+    for _ in range(k):
+        result.append(heapq.heappop(max_heap)[1])
+    return result
+
+nums = [1,1,1,2,2,3]
+k = 2
+#print(topKFrequent_heap(nums, k))
+
+#++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# https://leetcode.com/problems/number-of-islands/
+# https://www.youtube.com/watch?v=bks-nx3qBOE
+
+# Number of Islands
+
+#
+# Given a 2d grid map of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and is
+# formed by connecting adjacent lands horizontally or vertically.
+# You may assume all four edges of the grid are all surrounded by water.
+#
+# Input: grid = [
+#   ["1","1","1","1","0"],
+#   ["1","1","0","1","0"],
+#   ["1","1","0","0","0"],
+#   ["0","0","0","0","0"]
+# ]
+# Output: 1
+
+# Approach #1 DFS [Accepted]
+# Intuition
+#
+# Treat the 2d grid map as an undirected graph and there is an edge between two horizontally or vertically adjacent nodes of value '1'.
+#
+# Algorithm
+# Linear scan the 2d grid map, if a node contains a '1', then it is a root node that triggers a Depth First Search.
+# During DFS, every visited node should be set as '0' to mark as visited node. Count the number of root nodes that trigger DFS,
+# this number would be the number of islands since each DFS starting at some root identifies an island.
+
+# Note : if all corner are zero than its become Islands as all four corner have water
+
+
+
